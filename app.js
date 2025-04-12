@@ -1,4 +1,3 @@
-
 let words = [];
 let currentIndex = 0;
 const wordElement = document.getElementById("word");
@@ -44,24 +43,30 @@ function fetchWords() {
 }
 
 function updateWordCard() {
-  exampleSentenceElement.textContent=''
+  exampleSentenceElement.textContent = '';
   generateExampleBtn.textContent = "AI生成";
+
+  // 设置隐藏动画时间为 0ms
+  definitionTextElement.style.transitionDuration = "0ms";
+  definitionTextElement.classList.remove('opacity-100');
+  definitionTextElement.classList.add('opacity-0');
 
   // 触发卡片动画
   cardElement.classList.remove('opacity-0', 'transform', 'translate-y-10');
   cardElement.classList.add('opacity-100', 'transform', 'translate-y-0', 'transition-all', 'duration-500');
-  definitionTextElement.classList.remove('opacity-100');
-  definitionTextElement.classList.add('opacity-0');
-  
+
   if (currentIndex !== -1) {
     generateExampleBtn.classList.remove("hidden");
     const word = words[currentIndex];
     wordElement.textContent = word.title;
     definitionTextElement.textContent = word.text;
-    console.log(definitionTextElement.textContent)
+
+    // 恢复显示动画时间为 180ms
+    setTimeout(() => {
+      definitionTextElement.style.transitionDuration = "180ms";
+    }, 0);
   }
 
-  
   // 更新熟记按钮的样式
   if (memorizedWords.includes(wordElement.textContent)) {
     memorizedBtn.classList.add('btn-success');
@@ -75,7 +80,6 @@ function updateWordCard() {
   } else {
     favoriteCheckbox.checked = false;
   }
-
 }
 
 // 为生成例句按钮添加点击事件
@@ -334,8 +338,6 @@ window.onload = function () {
     searchAndDisplayWord(searchWord);
   }
 };
-
-
 
 
 // Initialize
